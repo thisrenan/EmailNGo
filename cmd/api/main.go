@@ -1,0 +1,42 @@
+package main
+
+import (
+	"encoding/json"
+	"net/http"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/render"
+)
+
+func main() {
+	r := chi.NewRouter()
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello World!"))
+	})
+	// localhost:3000?name=Renan     if more than one param u use localhost:3000?name=Renan&anotherparam=X
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		param := r.URL.Query().Get("name")
+		if param != "" {
+			w.Write([]byte("Hello World! " + param))
+		} else {
+			w.Write([]byte("test"))
+		}
+
+	})
+	r.Get("/{productName}", func(w http.ResponseWriter, r *http.Request) {
+		param := chi.URLParam(r, "productName")
+		w.Write([]byte("Hello World! " + param))
+	})
+	r.Get("/json", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		obj := map[string]string{"message": "success"}
+		b, _ := json.Marshal(obj)
+		w.Write(b)
+	})
+	//same as localhost/json but with render package, so you dont need to put the content-type and convert with json.marshal
+	r.Get("/jsonRender", func(w http.ResponseWriter, r *http.Request) {
+		obj := map[string]string{"message": "success"}
+		render.JSON(w, r, obj)
+	})
+	http.ListenAndServe(":3000", r)
+}
