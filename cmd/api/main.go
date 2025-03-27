@@ -15,12 +15,14 @@ type product struct {
 
 func main() {
 	r := chi.NewRouter()
+	r.Use(myMiddleware)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})
 	// localhost:3000?name=Renan     if more than one param u use localhost:3000?name=Renan&anotherparam=X
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		param := r.URL.Query().Get("name")
+		println("exec into endpoint")
 		if param != "" {
 			w.Write([]byte("Hello World! " + param))
 		} else {
@@ -51,4 +53,12 @@ func main() {
 		render.JSON(w, r, product)
 	})
 	http.ListenAndServe(":3000", r)
+}
+
+func myMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		println("request", r.Method, " url ", r.RequestURI)
+		next.ServeHTTP(w, r)
+		println("exec after")
+	})
 }
