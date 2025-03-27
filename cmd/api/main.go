@@ -1,7 +1,11 @@
 package main
 
 import (
-	"encoding/json"
+	"EmailNGo/internal/contract"
+	"EmailNGo/internal/domain/campaign"
+	"EmailNGo/internal/infrastructure/database"
+	internalerrors "EmailNGo/internal/internal-errors"
+	"errors"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -22,6 +26,39 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
+	service := campaign.Service{
+		Repository: &database.CampaignRepository{},
+	}
+
+	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
+		var request contract.NewCampaign
+		render.DecodeJSON(r.Body, &request)
+		id, err := service.Create(request)
+
+		if err != nil {
+
+			if errors.Is(err, internalerrors.ErrInternal) {
+				render.Status(r, 500)
+				render.JSON(w, r, map[string]string{"error": err.Error()})
+			} else {
+				render.Status(r, 400)
+				render.JSON(w, r, map[string]string{"error": err.Error()})
+			}
+
+			render.Status(r, 400)
+			render.JSON(w, r, map[string]string{"error": err.Error()})
+			return
+		}
+
+		render.Status(r, 201)
+		render.JSON(w, r, map[string]string{"id": id})
+	})
+
+	http.ListenAndServe(":3000", r)
+
+}
+
+/*
 	r.Use(myMiddleware)
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
@@ -60,8 +97,9 @@ func main() {
 		render.JSON(w, r, product)
 	})
 	http.ListenAndServe(":3000", r)
-}
+*/
 
+/*
 func myMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		println("request", r.Method, " url ", r.RequestURI)
@@ -69,3 +107,4 @@ func myMiddleware(next http.Handler) http.Handler {
 		println("exec after")
 	})
 }
+*/

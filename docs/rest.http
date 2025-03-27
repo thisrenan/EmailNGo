@@ -2,8 +2,10 @@ GET http://localhost:3000/
 
 ###
 
-POST http://localhost:3000/product
+POST http://localhost:3000/campaigns
 
 {
-    "name": "mouse"
+    "name": "Mouse",
+    "content": "Change Password",
+    "emails": ["test@test.com"]
 }
