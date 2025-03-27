@@ -39,13 +39,10 @@ func main() {
 
 			if errors.Is(err, internalerrors.ErrInternal) {
 				render.Status(r, 500)
-				render.JSON(w, r, map[string]string{"error": err.Error()})
 			} else {
 				render.Status(r, 400)
-				render.JSON(w, r, map[string]string{"error": err.Error()})
 			}
 
-			render.Status(r, 400)
 			render.JSON(w, r, map[string]string{"error": err.Error()})
 			return
 		}
