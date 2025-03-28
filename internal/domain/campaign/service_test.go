@@ -31,7 +31,7 @@ var (
 		Emails:  []string{"test1@test.com"},
 	}
 
-	service = Service{}
+	service = ServiceImp{}
 )
 
 func Test_Create_ValidateDomainError(t *testing.T) {
