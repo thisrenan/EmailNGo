@@ -104,3 +104,14 @@ func Test_NewCampaign_MustValidateContacts(t *testing.T) {
 	//assert
 	assert.Equal("Email is invalid", err.Error())
 }
+
+func Test_NewCampaign_MustStatusStartWithPending(t *testing.T) {
+	//arrange
+	assert := assert.New(t)
+
+	//act
+	campaign, _ := NewCampaign(name, content, contacts)
+
+	//assert
+	assert.Equal(Pending, campaign.Status)
+}
