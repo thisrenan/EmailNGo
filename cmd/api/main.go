@@ -23,14 +23,11 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 
-	campaignService := campaign.ServiceImp{
-		Repository: &database.CampaignRepository{},
-	}
-
+	campaignService := campaign.ServiceImp{Repository: &database.CampaignRepository{}}
 	handler := endpoints.Handler{CampaignService: &campaignService}
 
 	r.Post("/campaigns", endpoints.HandlerError(handler.CampaignPost))
-	r.Get("/campaigns", endpoints.HandlerError(handler.CampaignGet))
+	r.Get("/campaigns/{id}", endpoints.HandlerError(handler.CampaignGetById))
 
 	http.ListenAndServe(":3000", r)
 
