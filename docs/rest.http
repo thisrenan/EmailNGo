@@ -5,11 +5,11 @@ GET http://localhost:3000/
 POST http://localhost:3000/campaigns
 
 {
-    "name": "Mouse 2",
+    "name": "Change",
     "content": "Change Password",
     "emails": ["test@test.com"]
 }
 
 ###
 
-GET http://localhost:3000/campaigns
+GET http://localhost:3000/campaigns/cvkufgftlrri36017rc0
