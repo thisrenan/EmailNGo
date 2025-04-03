@@ -1,4 +1,4 @@
-package mock
+package internalmock
 
 import (
 	"EmailNGo/internal/contract"
@@ -18,10 +18,6 @@ func (r *CampaignServiceMock) Create(newCampaign contract.NewCampaign) (string, 
 func (r *CampaignServiceMock) GetBy(id string) (*contract.CampaignResponse, error) {
 	//args := r.Called(id)
 	return nil, nil
-}
-
-func (r *CampaignServiceMock) Cancel(id string) error {
-	return nil
 }
 
 func (r *CampaignServiceMock) Delete(id string) error {
