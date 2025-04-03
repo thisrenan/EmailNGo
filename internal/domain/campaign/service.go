@@ -60,7 +60,7 @@ func (s *ServiceImp) Cancel(id string) error {
 	campaign, err := s.Repository.GetBy(id)
 
 	if err != nil {
-		return internalerrors.ErrInternal
+		return internalerrors.ProcessErrorToReturn(err)
 	}
 
 	if campaign.Status != Pending {
@@ -82,7 +82,7 @@ func (s *ServiceImp) Delete(id string) error {
 	campaign, err := s.Repository.GetBy(id)
 
 	if err != nil {
-		return internalerrors.ErrInternal
+		return internalerrors.ProcessErrorToReturn(err)
 	}
 
 	if campaign.Status != Pending {

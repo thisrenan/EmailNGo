@@ -16,8 +16,8 @@ GET http://localhost:3000/campaigns/cvmvq8ntlrrlil5meljg
 
 ###
 
-PATCH http://localhost:3000/campaigns/cancel/cvkufgftlrri36017rc0
+PATCH http://localhost:3000/campaigns/cancel/cvmvtontlrrg5h0ls5tg
 
 ###
 
-DELETE http://localhost:3000/campaigns/delete/cvmvfv7tlrrlv73uuhag
+DELETE http://localhost:3000/campaigns/delete/cvmvtqvtlrrg5h0ls5ug
